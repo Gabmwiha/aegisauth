@@ -1045,7 +1045,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (_submittedSearchQuery == null) {
+                if (_submittedSearchQuery == null || _searchView.hasFocus()) {
                     _entryListView.setSearchFilter(s);
                 }
 
@@ -1126,6 +1126,8 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
 
     private void collapseSearchView() {
         _groupChip.setVisibility(_groups.isEmpty() ? View.GONE : View.VISIBLE);
+        // Clearing the field while collapsing must preserve a submitted search filter.
+        _searchView.clearFocus();
         _searchView.setQuery(null, false);
         _searchView.setIconified(true);
     }
